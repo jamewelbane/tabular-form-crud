@@ -1,0 +1,24 @@
+.search {
+    background-color: #353953;
+}
+
+.search:hover {
+    background-color: #32335e;
+}
+
+.search:focus {
+    box-shadow: rgba(55, 54, 107, 0.4) 0 0 0 3px;
+    outline: none;
+}
+
+.search:disabled {
+    background-color: #9496d3;
+    border-color: rgba(27, 31, 35, .1);
+    color: rgba(255, 255, 255, .8);
+    cursor: default;
+}
+
+.search:active {
+    background-color: #212144;
+    box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
