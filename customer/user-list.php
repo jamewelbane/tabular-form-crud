@@ -3,7 +3,6 @@
 <html>
 <?php
 require("../head.html");
-
 ?>
 
 
