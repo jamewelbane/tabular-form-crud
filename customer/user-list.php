@@ -17,6 +17,8 @@ require("../head.html");
         </div>
     </div>
 
+
+
     <form method="GET" action="">
         <center>
             <div style="align-items: center;">
@@ -195,10 +197,10 @@ require("../head.html");
             var sortParam = 'sort=' + column;
             var descendingOrderParam = 'order=desc';
 
-            // Remove existing sorting parameters from the URL
+           
             currentUrl = currentUrl.replace(/[?&]sort=[^&]*/g, '').replace(/[?&]order=[^&]*/g, '');
 
-            // Add new sorting parameters to the URL
+            
             var sortUrl = currentUrl;
             if (sortUrl.includes('?')) {
                 sortUrl += '&';
@@ -207,15 +209,73 @@ require("../head.html");
             }
             sortUrl += sortParam + '&' + descendingOrderParam;
 
-            // Redirect to the sorted URL
+           
             window.location.href = sortUrl;
 
-            // Update caret icon class
+            
             var iconClass = 'fas fa-caret-up';
             document.querySelector('th.' + column + ' i').className = iconClass;
         }
     </script>
 
+
+
+    <script type='text/javascript'>
+        $(function() {
+            // Use event delegation for the click event
+            $(document).on('click', '.button1.edit', function() {
+                var user_id = $(this).data('id');
+                $.ajax({
+                    url: '../function/update-customer.php',
+                    type: 'post',
+                    data: {
+                        user_id: user_id
+                    },
+                    success: function(response) {
+                        $('#modalContent').html(response);
+                        $('#myModalUpdate').modal('show');
+
+                        $(document).on('click', '#close-btn', function() {
+                            $('#myModalUpdate').modal('hide');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <div id="myModalUpdate" class="modal">
+        <div class="modal-content" id="modalContent">
+            
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll('.button1.delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const user_id = this.getAttribute('data-id');
+                const confirmDelete = confirm('You are about to delete this customer.\nAre you sure?');
+                if (confirmDelete) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '../function/delete-customer.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            alert('Deleted!\n' + xhr.responseText);
+                            window.location.reload(); 
+                        }
+                    };
+                    xhr.send('user_id=' + user_id);
+                }
+            });
+        });
+    });
+</script>
 
 
 
