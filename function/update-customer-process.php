@@ -5,7 +5,7 @@ include("new-user-function.php");
 $captcha_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userid = random_num(5);
+    
     $fullname = htmlspecialchars($_POST["fullname"]);
     $gender = $_POST["gender"];
     $email = htmlspecialchars($_POST["email"]);
@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    if (empty($fullname) || empty($gender) || empty($username) || empty($email) || empty($password)) {
+    if (empty($fullname) || empty($gender) || empty($username) || empty($email)) {
         $errorMessage = "Error. Please complete the form ";
         if (empty($fullname)) {
             $errorMessage .= "Fullname ";
@@ -27,9 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($email)) {
             $errorMessage .= "Email ";
         }
-        if (empty($password)) {
-            $errorMessage .= "Password ";
-        }
+    
         handleValidationError($errorMessage);
     } else {
 
