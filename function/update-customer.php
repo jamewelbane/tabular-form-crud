@@ -55,7 +55,7 @@ mysqli_close($link);
 <link rel="stylesheet" href="../style/form-style.css">
 <h2 style="text-align: center; color: black;">Update Information</h2>
 
-<form method="post" action="../function/new-user-process.php">
+<form method="post" action="#">
     <div class="user-details">
         <div class="input-box">
             <span class="details">Full Name</span>

@@ -2,8 +2,18 @@
 
 <html>
 <?php
+session_start();
 require("../head.html");
-?>
+
+// session_unset();
+
+// if (!isset($_SESSION['user_id_filter'])) {
+//     // Set the default value
+//     $_SESSION['user_id_filter'] = 1; // Default value is 1
+// }
+
+//   echo "{$_SESSION['user_id_filter']}";
+// ?>
 
 
 <h2 style="color:black">User List</h2>
@@ -27,16 +37,18 @@ require("../head.html");
             </div>
         </center>
     </form>
-
+    
     <table class="fl-table">
         <button data-id='' title='Delete' onclick="openModal()" class='button1 create'><i class='fas fa-user-plus'></i></button>
+
         <thead>
             <tr>
-                <th>
+                <th <?php echo (isset($_SESSION['user_id_filter']) && $_SESSION['user_id_filter'] == 0) ? "style='display: none;'" : ""; ?>>
                     User ID
                     <i onclick="sortColumn('user_id')" style="cursor: pointer;" class="fas fa-caret-up"></i>
                     <i onclick="sortColumnDesc('user_id')" style="cursor: pointer;" class="fas fa-caret-down"></i>
                 </th>
+
                 <th>
                     Full Name
                     <i onclick="sortColumn('fullname')" style="cursor: pointer;" class="fas fa-caret-up"></i>
@@ -60,6 +72,9 @@ require("../head.html");
                 <th>Action</th>
             </tr>
         </thead>
+
+
+
         <tbody>
             <?php
             include("../database/connection.php");
@@ -109,16 +124,16 @@ require("../head.html");
                         $gender = "Unknown";
                     }
                     echo "<tr>
-                <td>" . $row["user_id"] . "</td>
-                <td>" . $row["fullname"] . "</td>
-                <td>" . $gender . "</td>
-                <td>" . $row["email"] . "</td>
-                <td>" . $row["username"] . "</td>
-                <td>
-                    <button data-id='" . $row["user_id"] . "' title='Delete' class='button1 delete' style=''><i class='fas fa-trash-alt'></i></button>
-                    <button data-id='" . $row["user_id"] . "' title='Delete' class='button1 edit' style=''><i class='fas fa-edit'></i></button>
-                </td>
-            </tr>";
+            " . (isset($_SESSION['user_id_filter']) && $_SESSION['user_id_filter'] == 0 ? "<td style='display: none;'>" . $row["user_id"] . "</td>" : "<td>" . $row["user_id"] . "</td>") . "
+            " . (isset($_SESSION['fullname_filter']) && $_SESSION['fullname_filter'] == 0 ? "<td style='display: none;'>" . $row["fullname"] . "</td>" : "<td>" . $row["fullname"] . "</td>") . "
+            " . (isset($_SESSION['gender_filter']) && $_SESSION['gender_filter'] == 0 ? "<td style='display: none;'>" . $gender . "</td>" : "<td>" . $gender . "</td>") . "
+            " . (isset($_SESSION['email_filter']) && $_SESSION['email_filter'] == 0 ? "<td style='display: none;'>" . $row["email"] . "</td>" : "<td>" . $row["email"] . "</td>") . "
+            " . (isset($_SESSION['username_filter']) && $_SESSION['username_filter'] == 0 ? "<td style='display: none;'>" . $row["username"] . "</td>" : "<td>" . $row["username"] . "</td>") . "
+            <td>
+                <button data-id='" . $row["user_id"] . "' title='Delete' class='button1 delete' style=''><i class='fas fa-trash-alt'></i></button>
+                <button data-id='" . $row["user_id"] . "' title='Delete' class='button1 edit' style=''><i class='fas fa-edit'></i></button>
+            </td>
+        </tr>";
                 }
             } else {
                 echo "<tr><td colspan='6'>0 results</td></tr>";
@@ -160,63 +175,10 @@ require("../head.html");
                 ?>
             </div>
     </center>
+
+
     <script src="../javascript/table-javascript.js"></script>
-
-
-
-    <script>
-        function sortColumn(column) {
-            var currentUrl = window.location.href;
-            var sortParam = 'sort=' + column;
-            var ascendingOrderParam = 'order=asc';
-            var descendingOrderParam = 'order=desc';
-
-            // Remove existing sorting parameters from the URL
-            currentUrl = currentUrl.replace(/[?&]sort=[^&]*/g, '').replace(/[?&]order=[^&]*/g, '');
-
-            // Add new sorting parameters to the URL
-            var sortUrl = currentUrl;
-            if (sortUrl.includes('?')) {
-                sortUrl += '&';
-            } else {
-                sortUrl += '?';
-            }
-            sortUrl += sortParam + '&' + ascendingOrderParam;
-
-            // Redirect to the sorted URL
-            window.location.href = sortUrl;
-
-            // Update caret icon class
-            var iconClass = 'fas fa-caret-up';
-            document.querySelector('th.' + column + ' i').className = iconClass;
-        }
-
-
-        function sortColumnDesc(column) {
-            var currentUrl = window.location.href;
-            var sortParam = 'sort=' + column;
-            var descendingOrderParam = 'order=desc';
-
-           
-            currentUrl = currentUrl.replace(/[?&]sort=[^&]*/g, '').replace(/[?&]order=[^&]*/g, '');
-
-            
-            var sortUrl = currentUrl;
-            if (sortUrl.includes('?')) {
-                sortUrl += '&';
-            } else {
-                sortUrl += '?';
-            }
-            sortUrl += sortParam + '&' + descendingOrderParam;
-
-           
-            window.location.href = sortUrl;
-
-            
-            var iconClass = 'fas fa-caret-up';
-            document.querySelector('th.' + column + ' i').className = iconClass;
-        }
-    </script>
+    <script src="../javascript/sorting.js"></script>
 
 
 
@@ -247,39 +209,39 @@ require("../head.html");
 
     <div id="myModalUpdate" class="modal">
         <div class="modal-content" id="modalContent">
-            
+
         </div>
     </div>
 
 
+
+    <!-- delete -->
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll('.button1.delete');
+        document.addEventListener("DOMContentLoaded", function() {
+          const deleteButtons = document.querySelectorAll('.button1.delete');
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const user_id = this.getAttribute('data-id');
-                const confirmDelete = confirm('You are about to delete this customer.\nAre you sure?');
-                if (confirmDelete) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', '../function/delete-customer.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            alert('Deleted!\n' + xhr.responseText);
-                            window.location.reload(); 
-                        }
-                    };
-                    xhr.send('user_id=' + user_id);
-                }
-            });
-        });
-    });
-</script>
-
-
-
-
+          deleteButtons.forEach(button => {
+              button.addEventListener('click', function() {
+                  const user_id = this.getAttribute('data-id');
+                  const confirmDelete = confirm('You are about to delete this customer.\nAre you sure?');
+                  if (confirmDelete) {
+                      const xhr = new XMLHttpRequest();
+                      xhr.open('POST', '../function/delete-customer.php', true);
+                      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                      xhr.onreadystatechange = function() {
+                          if (xhr.readyState === 4 && xhr.status === 200) {
+                              alert('Deleted!\n' + xhr.responseText);
+                              window.location.reload();
+                          }
+                      };
+                      xhr.send('user_id=' + user_id);
+                  }
+              });
+          });
+      });
     </script>
+
+
+
 
 </html>
