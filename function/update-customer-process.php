@@ -15,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = htmlspecialchars($_POST["username"]);
 
     // Original information
-    $OrigEmail = htmlspecialchars($_POST["email"]);
-    $OrigUsername = htmlspecialchars($_POST["username"]);
+    $OrigEmail = $_POST["email"];
+    $OrigUsername = $_POST["username"];
 
 
 
@@ -58,13 +58,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
         
             if (UPDATEisUsernameExists($link, $username, $OrigUsername)) {
-                handleValidationError("Username is taken");
-                unset($_SESSION['username']);
+                // handleValidationError("Username is taken");
+                
             }
         
             if (UPDATEisEmailExists($link, $email, $OrigEmail)) {
-                handleValidationError("Email already exists");
-                unset($_SESSION['email']);
+                // handleValidationError("Email already exist");
+                
             }
         
             // Update database
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             } catch (mysqli_sql_exception $e) {
                 // Error 
-                handleValidationError("An error occurred while updating user information. Duplicate entry!");
+                handleValidationError("Duplicate entry! Please check the email or username.");
             }
         }
         

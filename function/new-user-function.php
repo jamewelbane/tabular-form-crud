@@ -28,11 +28,14 @@ function UPDATEisUsernameExists($link, $username, $OrigUsername)
         $numRows = mysqli_num_rows($result);
 
         mysqli_stmt_close($stmt); // Close the prepared statement
-
+        
         return ($numRows > 0);
     } else {
+        
         return false; 
+        
     }
+    handleValidationError("Username is taken");
 }
 
 
@@ -63,7 +66,7 @@ function UPDATEisEmailExists($link, $email, $OrigEmail)
         $numRows = mysqli_num_rows($result);
 
         mysqli_stmt_close($stmt); // Close the prepared statement
-
+        handleValidationError("Email already exist!");
         return ($numRows > 0);
     } else {
         return false; 
@@ -92,7 +95,7 @@ function handleValidationSuccess($successMessage)
           var successMessage = '" . $successMessage . "';
           if (successMessage) {
               if (confirm(successMessage)) {
-                window.location.href = '../index.html';
+                window.location.href = '../customer/user-list.php';
               }
           }
         </script>";
