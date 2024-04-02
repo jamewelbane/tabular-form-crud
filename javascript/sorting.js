@@ -49,3 +49,5 @@ function sortColumnDesc(column) {
     var iconClass = 'fas fa-caret-up';
     document.querySelector('th.' + column + ' i').className = iconClass;
 }
+
+

@@ -2,7 +2,7 @@
 
 
 // form validation function
-function isUsernameExists($link, $username)
+function isUsernameExists($link, $username,)
 {
 
     $checkQuery = "SELECT * FROM user_account WHERE username = ?";
@@ -14,6 +14,28 @@ function isUsernameExists($link, $username)
 
     return (mysqli_num_rows($result) > 0);
 }
+
+
+function UPDATEisUsernameExists($link, $username, $OrigUsername)
+{
+    if (!empty($username) && $username != $OrigUsername) {
+        $checkQuery = "SELECT * FROM user_account WHERE username = ?";
+        $stmt = mysqli_prepare($link, $checkQuery);
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+        $numRows = mysqli_num_rows($result);
+
+        mysqli_stmt_close($stmt); // Close the prepared statement
+
+        return ($numRows > 0);
+    } else {
+        return false; 
+    }
+}
+
+
 
 
 function isEmailExists($link, $email)
@@ -28,6 +50,26 @@ function isEmailExists($link, $email)
 
     return (mysqli_num_rows($result) > 0);
 }
+
+function UPDATEisEmailExists($link, $email, $OrigEmail)
+{
+    if ($email != $OrigEmail) {
+        $checkQuery = "SELECT * FROM user_account WHERE email = ?";
+        $stmt = mysqli_prepare($link, $checkQuery);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+        $numRows = mysqli_num_rows($result);
+
+        mysqli_stmt_close($stmt); // Close the prepared statement
+
+        return ($numRows > 0);
+    } else {
+        return false; 
+    }
+}
+
 
 
 //error message alert
@@ -55,6 +97,8 @@ function handleValidationSuccess($successMessage)
           }
         </script>";
 
+
+
 }
 
 //random number generator
@@ -78,11 +122,8 @@ function random_num($length)
 }
 
 
+
+
+
 ?>
 
-
-
-<!-- js function -->
-<script>
-    
-</script>

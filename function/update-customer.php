@@ -58,6 +58,8 @@ mysqli_close($link);
 <form method="post" action="../function/update-customer-process.php">
     <div class="user-details">
         <div class="input-box">
+
+            <input name="userid" value="<?php echo $id ?>" hidden>
             <span class="details">Full Name</span>
             <input type="text" name="fullname" value="<?php echo $fullname ?>" placeholder="Enter user's name" required>
 
@@ -88,11 +90,17 @@ mysqli_close($link);
         <div class="input-box">
             <span class="details">Email</span>
             <input type="email" name="email" placeholder="Enter user's email" value="<?php echo $email ?>" required>
+
+            <!-- Orig Email -->
+            <input name="OrigEmail" value="<?php echo $email ?>" hidden>
         </div>
 
         <div class="input-box">
             <span class="details">Username</span>
             <input type="text" name="username" placeholder="Enter user's username" value="<?php echo $username ?>" required>
+
+            <!-- Orig username -->
+            <input name="OrigUsername" value="<?php echo $username ?>" hidden>
         </div>
 
 

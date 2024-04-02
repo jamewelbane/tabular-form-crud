@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="../style/form-style.css">
+
 <form method="post" action="../function/new-user-process.php">
     <div class="user-details">
         <div class="input-box">
             <span class="details">Full Name</span>
-            <input type="text" name="fullname" placeholder="Enter user's name" required>
+            <input type="text" name="fullname" value="<?php echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : ''; ?>" placeholder="Enter user's full name" required>
 
         </div>
 
@@ -48,3 +49,4 @@
     </div>
 
 </form>
+

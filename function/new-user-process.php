@@ -63,7 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $isUnique = mysqli_stmt_execute($stmtUsers);
                 if ($isUnique) {
                     handleValidationSuccess("User added successfully!");
-                    // session_destroy();
+                    unset($_SESSION['fullname']);
+                    unset($_SESSION['gender']);
+                    unset($_SESSION['email']);
+                    unset($_SESSION['username']);
                 }
             } catch (mysqli_sql_exception $e) {
                 //Error 

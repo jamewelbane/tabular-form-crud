@@ -1,15 +1,22 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include("../database/connection.php");
 include("new-user-function.php");
 $captcha_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+    $userid = $_POST["userid"];
+    $userid = intval($userid);
     $fullname = htmlspecialchars($_POST["fullname"]);
     $gender = $_POST["gender"];
     $email = htmlspecialchars($_POST["email"]);
     $username = htmlspecialchars($_POST["username"]);
+
+    // Original information
+    $OrigEmail = htmlspecialchars($_POST["email"]);
+    $OrigUsername = htmlspecialchars($_POST["username"]);
 
 
 
@@ -27,41 +34,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($email)) {
             $errorMessage .= "Email ";
         }
-    
+
         handleValidationError($errorMessage);
     } else {
 
-        if (isUsernameExists($link, $username)) {
-            handleValidationError("Username is taken");
-            unset($_SESSION['username']);
-        }
-
-        if (isEmailExists($link, $email)) {
-            handleValidationError("Email already exist");
-            unset($_SESSION['email']);
-        }
-
-
-        //update database
-
-        $queryUsers = "UPDATE user_account SET fullname = ?, gender = ?, username = ?, email = ? WHERE user_id = ?";
-        $stmtUsers = mysqli_prepare($link, $queryUsers);
-        mysqli_stmt_bind_param($stmtUsers, "sissi", $fullname, $gender, $username, $email, $userid);
-
-        try {
-            $isUnique = mysqli_stmt_execute($stmtUsers);
-            if ($isUnique) {
-                handleValidationSuccess("User added successfully!");
+       
+        if (empty($fullname) || empty($gender) || empty($username) || empty($email)) {
+            $errorMessage = "Error. Please complete the form ";
+            if (empty($fullname)) {
+                $errorMessage .= "Fullname ";
             }
-        } catch (mysqli_sql_exception $e) {
-            //Error 
-            $errorCode = $e->getCode();
-            if ($errorCode == 1062) {
-                echo "Error: Duplicate entry";
-            } else {
-                // Handle other types of errors
-                echo "An error occurred while registering. Please try again later.";
+            if (empty($gender)) {
+                $errorMessage .= "Gender ";
+            }
+            if (empty($username)) {
+                $errorMessage .= "Username ";
+            }
+            if (empty($email)) {
+                $errorMessage .= "Email ";
+            }
+        
+            handleValidationError($errorMessage);
+        } else {
+        
+            if (UPDATEisUsernameExists($link, $username, $OrigUsername)) {
+                handleValidationError("Username is taken");
+                unset($_SESSION['username']);
+            }
+        
+            if (UPDATEisEmailExists($link, $email, $OrigEmail)) {
+                handleValidationError("Email already exists");
+                unset($_SESSION['email']);
+            }
+        
+            // Update database
+            $queryUsers = "UPDATE user_account SET fullname = ?, gender = ?, username = ?, email = ? WHERE user_id = ?";
+            $stmtUsers = mysqli_prepare($link, $queryUsers);
+            mysqli_stmt_bind_param($stmtUsers, "sissi", $fullname, $gender, $username, $email, $userid);
+        
+            try {
+                $isUpdated = mysqli_stmt_execute($stmtUsers);
+                if ($isUpdated) {
+                    handleValidationSuccess("User information updated successfully!");
+                }
+            } catch (mysqli_sql_exception $e) {
+                // Error 
+                handleValidationError("An error occurred while updating user information. Duplicate entry!");
             }
         }
+        
+        
     }
 }
