@@ -4,7 +4,7 @@
 <?php
 session_start();
 require("../head.html");
- ?>
+?>
 
 
 <h2 style="color:black">User List</h2>
@@ -29,7 +29,7 @@ require("../head.html");
             </div>
         </center>
     </form>
-    
+
     <table class="fl-table">
         <button data-id='' title='Delete' onclick="openModal()" class='button1 create'><i class='fas fa-user-plus'></i></button>
 
@@ -69,7 +69,7 @@ require("../head.html");
 
         <tbody>
             <?php
-                require ("../function/table.php");
+            require("../function/table.php");
             ?>
         </tbody>
 
@@ -80,7 +80,7 @@ require("../head.html");
             <div class="pagination">
                 <?php
                 // Limit the number of links to show
-                $num_links_to_show = 5; // Change this number as desired
+                $num_links_to_show = 10; // Change this number as desired
 
 
                 // Calculate start and end page numbers
@@ -113,36 +113,36 @@ require("../head.html");
     <script src="../javascript/table-javascript.js"></script>
     <script src="../javascript/sorting.js"></script>
 
-  <!-- delete customer -->
-  <script>
+    <!-- delete customer -->
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
-          const deleteButtons = document.querySelectorAll('.button1.delete');
+            const deleteButtons = document.querySelectorAll('.button1.delete');
 
-          deleteButtons.forEach(button => {
-              button.addEventListener('click', function() {
-                  const user_id = this.getAttribute('data-id');
-                  const confirmDelete = confirm('You are about to delete this customer.\nAre you sure?');
-                  if (confirmDelete) {
-                      const xhr = new XMLHttpRequest();
-                      xhr.open('POST', '../function/delete-customer.php', true);
-                      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                      xhr.onreadystatechange = function() {
-                          if (xhr.readyState === 4 && xhr.status === 200) {
-                              alert('Deleted!\n' + xhr.responseText);
-                              window.location.reload();
-                          }
-                      };
-                      xhr.send('user_id=' + user_id);
-                  }
-              });
-          });
-      });
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const user_id = this.getAttribute('data-id');
+                    const confirmDelete = confirm('You are about to delete this customer.\nAre you sure?');
+                    if (confirmDelete) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '../function/delete-customer.php', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                alert('Deleted!\n' + xhr.responseText);
+                                window.location.reload();
+                            }
+                        };
+                        xhr.send('user_id=' + user_id);
+                    }
+                });
+            });
+        });
     </script>
-<!-- end -->
+    <!-- end -->
 
 
-<!-- Edit/modify user's info : modal -->
-<script type='text/javascript'>
+    <!-- Edit/modify user's info : modal -->
+    <script type='text/javascript'>
         $(function() {
             // Use event delegation for the click event
             $(document).on('click', '.button1.edit', function() {
@@ -169,7 +169,6 @@ require("../head.html");
 
     <div id="myModalUpdate" class="modal">
         <div class="modal-content" id="modalContent">
-
         </div>
     </div>
 

@@ -68,11 +68,12 @@ mysqli_close($link);
         <div class="input-box">
             <span class="details">Gender</span>
             <select name="gender">
-                <option value="1" <?php echo ($gender === '1' || (!isset($_POST["gender"]) && $gender === '1')) ? 'selected' : ''; ?>>MALE</option>
-                <option value="2" <?php echo ($gender === '2' || (!isset($_POST["gender"]) && $gender === '2')) ? 'selected' : ''; ?>>FEMALE</option>
-                <option value="3" <?php echo ($gender === '3' || (!isset($_POST["gender"]) && $gender === '3')) ? 'selected' : ''; ?>>NON-BINARY</option>
+                <option value="1" <?php echo ($gender == 1 || (!isset($_POST["gender"]) && $gender == 1)) ? 'selected' : ''; ?>>MALE</option>
+                <option value="2" <?php echo ($gender == 2 || (!isset($_POST["gender"]) && $gender == 2)) ? 'selected' : ''; ?>>FEMALE</option>
+                <option value="3" <?php echo ($gender == 3 || (!isset($_POST["gender"]) && $gender == 3)) ? 'selected' : ''; ?>>NON-BINARY</option>
             </select>
         </div>
+
 
 
         <div class="input-box">
