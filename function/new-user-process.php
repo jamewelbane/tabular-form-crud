@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../database/connection.php");
-include("new-user-function.php");
+include("customer-function.php");
 $captcha_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

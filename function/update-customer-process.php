@@ -3,7 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include("../database/connection.php");
-include("new-user-function.php");
+include("customer-function.php");
 $captcha_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
