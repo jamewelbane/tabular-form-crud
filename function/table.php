@@ -15,8 +15,7 @@ $total_pages = ceil($total_rows / $results_per_page);
 
 // Current page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-$page = max(1, min($page, $total_pages)); // Ensure page is within valid range
-
+$page = max(1, min($page, $total_pages));  
 $start_from = ($page - 1) * $results_per_page;
 
 
