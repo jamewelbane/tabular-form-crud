@@ -80,14 +80,11 @@ require("../head.html");
             <div class="pagination">
                 <?php
                 // Limit the number of links to show
-                $num_links_to_show = 10; // Change this number as desired
-
-
-                // Calculate start and end page numbers
+                $num_links_to_show = 10; 
                 $start_page = max(1, $page - floor($num_links_to_show / 2));
                 $end_page = min($total_pages, $start_page + $num_links_to_show - 1);
 
-                // Ensure we have enough links on the right side
+                // Ensure have enough links on the right side
                 $start_page = max(1, $end_page - $num_links_to_show + 1);
 
                 // Previous page button
@@ -144,7 +141,6 @@ require("../head.html");
     <!-- Edit/modify user's info : modal -->
     <script type='text/javascript'>
         $(function() {
-            // Use event delegation for the click event
             $(document).on('click', '.button1.edit', function() {
                 var user_id = $(this).data('id');
                 $.ajax({

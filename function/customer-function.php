@@ -65,7 +65,7 @@ function UPDATEisEmailExists($link, $email, $OrigEmail)
         $result = mysqli_stmt_get_result($stmt);
         $numRows = mysqli_num_rows($result);
 
-        mysqli_stmt_close($stmt); // Close the prepared statement
+        mysqli_stmt_close($stmt);
         handleValidationError("Email already exist!");
         return ($numRows > 0);
     } else {
