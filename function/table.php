@@ -60,4 +60,3 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo "<tr><td colspan='6'>0 results</td></tr>";
 }
-?>
