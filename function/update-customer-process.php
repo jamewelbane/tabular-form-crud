@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $isUpdated = mysqli_stmt_execute($stmtUsers);
                 if ($isUpdated) {
-                    handleValidationSuccess("User information updated successfully!");
+                    handleValidationSuccess("User information updated successfully!.");
                 }
             } catch (mysqli_sql_exception $e) {
                 // Error 
